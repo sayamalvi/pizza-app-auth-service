@@ -15,7 +15,7 @@ export default tseslint.config(
             },
         },
         rules: {
-            // 'no-console': 'warn',
+            'no-console': 'error',
             'dot-notation': 'error',
         },
     },
