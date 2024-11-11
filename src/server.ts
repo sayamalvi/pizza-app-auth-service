@@ -1,5 +1,6 @@
 function welcome(name: string) {
-    console.log('Hello');
+    // console.log('Hello');
+    // console.log("Hi")
     const user = {
         name: 'Sayam',
     };
