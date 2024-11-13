@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "main": "index.js",
     "scripts": {
-        "dev": "nodemon src/server.ts",
+        "dev": "nodemon src/server.ts --legacy-watch",
         "format:fix": "prettier . --write",
         "format:check": "prettier . --check",
         "lint:check": "eslint . --check",
