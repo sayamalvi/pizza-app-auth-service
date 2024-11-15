@@ -3,6 +3,7 @@ import app from '../../src/app';
 import { DataSource } from 'typeorm';
 import { AppDataSource } from '../../src/config/data-source';
 import { User } from '../../src/entity/User';
+import { ROLES } from '../../src/enums';
 // import { UserData } from '../../src/controllers/AuthController';
 
 describe('POST /auth/register', () => {
@@ -111,6 +112,49 @@ describe('POST /auth/register', () => {
             const users = await userRepository.find();
             expect(users[0]).toHaveProperty('role');
             expect(users[0].role).toBe('customer');
+        });
+
+        it('should store the hashed password in the database', async () => {
+            const userData = {
+                firstName: 'Sayam',
+                lastName: 'Alvi',
+                email: 'sayamalvi07@gmail.com',
+                password: 'secret',
+            };
+
+            await request(app).post('/auth/register').send(userData);
+
+            const userRepository = connection.getRepository(User);
+            const users = await userRepository.find();
+            expect(users[0].password).not.toBe(userData.password);
+            expect(users[0].password).toHaveLength(60);
+            expect(users[0].password).toMatch(/^\$2b\$\d+\$/);
+        });
+
+        it('should return 400 status code if email already exists', async () => {
+            // Arrange
+            const userData = {
+                firstName: 'Sayam',
+                lastName: 'Alvi',
+                email: 'sayamalvi07@gmail.com',
+                password: 'secret',
+            };
+
+            const userRepository = connection.getRepository(User);
+            await userRepository.save({
+                ...userData,
+                role: ROLES.CUSTOMER,
+            });
+
+            // Act
+            const response = await request(app)
+                .post('/auth/register')
+                .send(userData);
+            const users = await userRepository.find();
+            // Assert
+
+            expect(response.statusCode).toBe(400);
+            expect(users).toHaveLength(1);
         });
     });
     describe('Fields are missing', () => {});
