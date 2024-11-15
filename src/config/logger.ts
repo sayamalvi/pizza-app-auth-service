@@ -27,6 +27,16 @@ const logger = winston.createLogger({
             ),
             silent: Config.NODE_ENV === 'test' || Config.NODE_ENV === 'dev',
         }),
+        new winston.transports.File({
+            level: 'debug',
+            dirname: 'logs',
+            filename: 'debug.log',
+            format: winston.format.combine(
+                winston.format.timestamp(),
+                winston.format.json(),
+            ),
+            silent: Config.NODE_ENV === 'test' || Config.NODE_ENV === 'dev',
+        }),
     ],
 });
 
