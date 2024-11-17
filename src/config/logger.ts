@@ -8,34 +8,24 @@ const logger = winston.createLogger({
     },
     transports: [
         new winston.transports.File({
-            level: 'info',
             dirname: 'logs',
-            filename: 'info.log',
-            format: winston.format.combine(
-                winston.format.timestamp(),
-                winston.format.json(),
-            ),
-            silent: Config.NODE_ENV === 'test' || Config.NODE_ENV === 'dev',
+            filename: 'combined.log',
+            level: 'info',
+            silent: Config.NODE_ENV === 'test',
         }),
         new winston.transports.File({
-            level: 'error',
             dirname: 'logs',
             filename: 'error.log',
-            format: winston.format.combine(
-                winston.format.timestamp(),
-                winston.format.json(),
-            ),
-            silent: Config.NODE_ENV === 'test' || Config.NODE_ENV === 'dev',
+            level: 'error',
+            silent: Config.NODE_ENV === 'test',
         }),
-        new winston.transports.File({
-            level: 'debug',
-            dirname: 'logs',
-            filename: 'debug.log',
+        new winston.transports.Console({
+            level: 'info',
             format: winston.format.combine(
                 winston.format.timestamp(),
                 winston.format.json(),
             ),
-            silent: Config.NODE_ENV === 'test' || Config.NODE_ENV === 'dev',
+            silent: Config.NODE_ENV === 'test',
         }),
     ],
 });
