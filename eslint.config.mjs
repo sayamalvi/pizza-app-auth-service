@@ -1,7 +1,11 @@
 // @ts-check
 
 import eslint from '@eslint/js';
+import { dirname } from 'path';
 import tseslint from 'typescript-eslint';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default tseslint.config(
     eslint.configs.recommended,
@@ -12,20 +16,24 @@ export default tseslint.config(
             'node_modules',
             'eslint.config.mjs',
             'jest.config.js',
+            '',
         ],
     },
     {
         languageOptions: {
             parserOptions: {
                 projectService: true,
-                tsconfigRootDir: import.meta.dirname,
+                tsconfigRootDir: __dirname,
+                extraFileExtensions: ['.mjs'],
             },
         },
         rules: {
-            // 'no-console': 'error',
-            // 'dot-notation': 'error',
             '@typescript-eslint/no-misused-promises': 'off',
             '@typescript-eslint/no-unused-vars': 'warn',
+            'no-console': 'error',
+            'dot-notation': 'error',
+            '@typescript-eslint/require-await': 'off',
+            '@typescript-eslint/no-unsafe-assignment': 'off',
         },
     },
 );
