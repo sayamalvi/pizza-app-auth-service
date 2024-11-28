@@ -24,12 +24,16 @@ export class UserService {
                 role: ROLES.CUSTOMER,
             });
             return user;
-        } catch (error) {
+        } catch {
             const err = createHttpError(
                 500,
                 'Failed to store the data in the database',
             );
             throw err;
         }
+    }
+
+    async findByEmail(email: string) {
+        return await this.userRepository.findOne({ where: { email } });
     }
 }
