@@ -66,6 +66,7 @@ describe('POST /auth/login', () => {
             expect(isJwt(accessToken)).toBeTruthy();
             expect(isJwt(refreshToken)).toBeTruthy();
         });
+
         it('should return the 400 if email or password is wrong', async () => {
             const userData = {
                 firstName: 'Sayam',
