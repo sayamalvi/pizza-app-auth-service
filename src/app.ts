@@ -4,7 +4,7 @@ import { HttpError } from 'http-errors';
 import authRouter from './routes/auth';
 import 'reflect-metadata';
 import cookieParser from 'cookie-parser';
-
+import tenantRouter from './routes/tenant';
 const app = express();
 app.use(express.static('public'));
 app.use(cookieParser());
@@ -13,6 +13,7 @@ app.get('/', (req, res) => {
     res.send('Welcome to auth service');
 });
 app.use('/auth', authRouter);
+app.use('/tenants', tenantRouter);
 
 app.use((err: HttpError, req: Request, res: Response) => {
     logger.error(err.message);
