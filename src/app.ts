@@ -5,6 +5,7 @@ import authRouter from './routes/auth';
 import 'reflect-metadata';
 import cookieParser from 'cookie-parser';
 import tenantRouter from './routes/tenant';
+
 const app = express();
 app.use(express.static('public'));
 app.use(cookieParser());
