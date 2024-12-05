@@ -102,5 +102,22 @@ describe('POST /tenants', () => {
 
             expect(tenants).toHaveLength(0);
         });
+
+        it('should return 400 if name or address is not valid', async () => {
+            const tenantData = {
+                name: '',
+                address: 'Tenant address',
+            };
+            const response = await request(app)
+                .post('/tenants')
+                .set('Cookie', `accessToken=${adminToken}`)
+                .send(tenantData);
+            expect(response.statusCode).toBe(400);
+
+            const tenantRepository = connection.getRepository(Tenant);
+            const tenants = await tenantRepository.find();
+
+            expect(tenants).toHaveLength(0);
+        });
     });
 });
