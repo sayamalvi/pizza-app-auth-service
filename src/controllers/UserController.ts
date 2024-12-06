@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { UserService } from '../services/UserService';
 import { CreateUserRequest, UpdateUserRequest } from '../types';
-import { ROLES } from '../enums';
 import { Logger } from 'winston';
 import createHttpError from 'http-errors';
 
@@ -12,14 +11,15 @@ export class UserController {
     ) {}
     async create(req: CreateUserRequest, res: Response, next: NextFunction) {
         try {
-            const { firstName, lastName, email, password, tenantId } = req.body;
+            const { firstName, lastName, email, password, tenantId, role } =
+                req.body;
 
             const user = await this.userService.create({
                 firstName,
                 lastName,
                 email,
                 password,
-                role: ROLES.MANAGER,
+                role,
                 tenantId,
             });
 
