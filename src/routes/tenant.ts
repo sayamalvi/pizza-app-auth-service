@@ -13,6 +13,7 @@ import authenticate from '../middlewares/authenticate';
 import { canAccess } from '../middlewares/canAccess';
 import { ROLES } from '../enums';
 import tenantValidator from '../validators/tenant-validator';
+import { CreateTenantRequest } from '../types';
 
 const router = express.Router();
 const tenantRepository = AppDataSource.getRepository(Tenant);
@@ -24,7 +25,7 @@ router.post(
     authenticate as RequestHandler,
     canAccess([ROLES.ADMIN]) as RequestHandler,
     tenantValidator,
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req: CreateTenantRequest, res: Response, next: NextFunction) => {
         await tenantController.create(req, res, next);
     },
 );
@@ -42,7 +43,7 @@ router.patch(
     authenticate as RequestHandler,
     canAccess([ROLES.ADMIN]) as RequestHandler,
     tenantValidator,
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req: CreateTenantRequest, res: Response, next: NextFunction) => {
         await tenantController.updateTenant(req, res, next);
     },
 );

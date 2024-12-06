@@ -3,13 +3,14 @@ import { TenantService } from '../services/TenantService';
 import { Logger } from 'winston';
 import { validationResult } from 'express-validator';
 import createHttpError from 'http-errors';
+import { CreateTenantRequest } from '../types';
 
 export class TenantController {
     constructor(
         private tenantService: TenantService,
         private logger: Logger,
     ) {}
-    async create(req: Request, res: Response, next: NextFunction) {
+    async create(req: CreateTenantRequest, res: Response, next: NextFunction) {
         const result = validationResult(req);
         if (!result.isEmpty()) {
             return res.status(400).json({ errors: result.array() });
@@ -61,7 +62,11 @@ export class TenantController {
         }
     }
 
-    async updateTenant(req: Request, res: Response, next: NextFunction) {
+    async updateTenant(
+        req: CreateTenantRequest,
+        res: Response,
+        next: NextFunction,
+    ) {
         const result = validationResult(req);
         if (!result.isEmpty()) {
             return res.status(400).json({ errors: result.array() });
