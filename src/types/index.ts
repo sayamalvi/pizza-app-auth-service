@@ -6,6 +6,7 @@ export interface UserData {
     email: string;
     password: string;
     role: string;
+    tenantId?: number;
 }
 export interface RegisterUserRequest extends Request {
     body: UserData;
@@ -36,7 +37,9 @@ export interface ITenant {
 export interface CreateUserRequest extends Request {
     body: UserData;
 }
-
+export interface CreateTenantRequest extends Request {
+    body: ITenant;
+}
 export interface LimitedUserData {
     firstName: string;
     lastName: string;

@@ -12,7 +12,7 @@ export class UserController {
     ) {}
     async create(req: CreateUserRequest, res: Response, next: NextFunction) {
         try {
-            const { firstName, lastName, email, password } = req.body;
+            const { firstName, lastName, email, password, tenantId } = req.body;
 
             const user = await this.userService.create({
                 firstName,
@@ -20,6 +20,7 @@ export class UserController {
                 email,
                 password,
                 role: ROLES.MANAGER,
+                tenantId,
             });
 
             res.status(201).json({ id: user.id });
