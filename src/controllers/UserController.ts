@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { UserService } from '../services/UserService';
-import { CreateUserRequest } from '../types';
+import { CreateUserRequest, UpdateUserRequest } from '../types';
 import { ROLES } from '../enums';
 import { Logger } from 'winston';
 import createHttpError from 'http-errors';
@@ -28,7 +28,7 @@ export class UserController {
         }
     }
 
-    async update(req: CreateUserRequest, res: Response, next: NextFunction) {
+    async update(req: UpdateUserRequest, res: Response, next: NextFunction) {
         const { firstName, lastName, role } = req.body;
         const userId = req.params.id;
 

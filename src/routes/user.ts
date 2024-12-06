@@ -15,6 +15,7 @@ import { User } from '../entity/User';
 import logger from '../config/logger';
 import createUserValidator from '../validators/create-user-validator';
 import updateUserValidator from '../validators/update-user-validator';
+import { CreateUserRequest, UpdateUserRequest } from '../types';
 
 const router = express.Router();
 const userRepository = AppDataSource.getRepository(User);
@@ -26,7 +27,7 @@ router.post(
     authenticate as RequestHandler,
     canAccess([ROLES.ADMIN]) as RequestHandler,
     createUserValidator,
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req: CreateUserRequest, res: Response, next: NextFunction) => {
         await userController.create(req, res, next);
     },
 );
@@ -52,7 +53,7 @@ router.patch(
     authenticate as RequestHandler,
     updateUserValidator,
     canAccess([ROLES.ADMIN]) as RequestHandler,
-    (req: Request, res: Response, next: NextFunction) =>
+    (req: UpdateUserRequest, res: Response, next: NextFunction) =>
         userController.update(req, res, next),
 );
 
