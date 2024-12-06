@@ -34,9 +34,13 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
     await tenantController.getAllTenants(req, res, next);
 });
 
-router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
-    await tenantController.getTenantById(req, res, next);
-});
+router.get(
+    '/:id',
+    authenticate as RequestHandler,
+    async (req: Request, res: Response, next: NextFunction) => {
+        await tenantController.getTenantById(req, res, next);
+    },
+);
 
 router.patch(
     '/:id',
