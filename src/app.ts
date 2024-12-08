@@ -6,9 +6,20 @@ import 'reflect-metadata';
 import cookieParser from 'cookie-parser';
 import tenantRouter from './routes/tenant';
 import userRouter from './routes/user';
+import cors from 'cors';
+import { Config } from './config';
 
 const app = express();
-
+const ALLOWED_DOMAINS = [
+    Config.ADMIN_FRONTEND_DOMAIN,
+    Config.CLIENT_FRONTEND_DOMAIN,
+];
+app.use(
+    cors({
+        origin: ALLOWED_DOMAINS as string[],
+        credentials: true,
+    }),
+);
 app.use(express.static('public'));
 app.use(cookieParser());
 app.use(express.json());
