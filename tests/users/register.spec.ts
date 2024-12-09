@@ -33,6 +33,7 @@ describe('POST /auth/register', () => {
                 lastName: 'Alvi',
                 email: 'sayamalvi07@gmail.com',
                 password: 'secret',
+                role: 'customer',
             };
 
             // Act
@@ -52,13 +53,13 @@ describe('POST /auth/register', () => {
                 lastName: 'Alvi',
                 email: 'sayamalvi07@gmail.com',
                 password: 'secret',
+                role: 'customer',
             };
 
             // Act
             const response = await request(app)
                 .post('/auth/register')
                 .send(userData);
-
             // Assert
 
             expect(response.headers['content-type']).toEqual(
@@ -72,6 +73,7 @@ describe('POST /auth/register', () => {
                 lastName: 'Alvi',
                 email: 'sayamalvi07@gmail.com',
                 password: 'secret',
+                role: 'customer',
             };
 
             await request(app).post('/auth/register').send(userData);
@@ -90,6 +92,7 @@ describe('POST /auth/register', () => {
                 lastName: 'Alvi',
                 email: 'sayamalvi07@gmail.com',
                 password: 'secret',
+                role: 'customer',
             };
 
             const response = await request(app)
@@ -105,6 +108,7 @@ describe('POST /auth/register', () => {
                 lastName: 'Alvi',
                 email: 'sayamalvi07@gmail.com',
                 password: 'secret',
+                role: 'customer',
             };
 
             await request(app).post('/auth/register').send(userData);
@@ -121,6 +125,7 @@ describe('POST /auth/register', () => {
                 lastName: 'Alvi',
                 email: 'sayamalvi07@gmail.com',
                 password: 'secret',
+                role: 'customer',
             };
 
             await request(app).post('/auth/register').send(userData);
@@ -139,6 +144,7 @@ describe('POST /auth/register', () => {
                 lastName: 'Alvi',
                 email: 'sayamalvi07@gmail.com',
                 password: 'secret',
+                role: 'customer',
             };
 
             const userRepository = connection.getRepository(User);
@@ -164,6 +170,7 @@ describe('POST /auth/register', () => {
                 lastName: 'Alvi',
                 email: 'sayamalvi07@gmail.com',
                 password: 'secret',
+                role: 'customer',
             };
 
             const response = await request(app)
@@ -197,6 +204,7 @@ describe('POST /auth/register', () => {
                 lastName: 'Alvi',
                 email: 'sayamalvi07@gmail.com',
                 password: 'secret',
+                role: 'customer',
             };
 
             const response = await request(app)
@@ -222,6 +230,7 @@ describe('POST /auth/register', () => {
                 lastName: 'Alvi',
                 email: '',
                 password: 'secret',
+                role: 'customer',
             };
 
             connection.getRepository(User);
@@ -240,6 +249,7 @@ describe('POST /auth/register', () => {
                 lastName: 'Alvi',
                 email: 'sayamalvi07@gmail.com',
                 password: 'secret',
+                role: 'customer',
             };
 
             connection.getRepository(User);
@@ -258,6 +268,7 @@ describe('POST /auth/register', () => {
                 lastName: 'Alvi',
                 email: 'sayamalvi07@gmail.com',
                 password: '',
+                role: 'customer',
             };
 
             connection.getRepository(User);
@@ -276,6 +287,7 @@ describe('POST /auth/register', () => {
                 lastName: '',
                 email: 'sayamalvi07@gmail.com',
                 password: 'secret',
+                role: 'customer',
             };
 
             connection.getRepository(User);
@@ -297,6 +309,7 @@ describe('POST /auth/register', () => {
                 lastName: 'Alvi',
                 email: '   sayamalvi07@gmail.com   ',
                 password: 'secret',
+                role: 'customer',
             };
 
             connection.getRepository(User);
@@ -314,6 +327,7 @@ describe('POST /auth/register', () => {
                 lastName: 'Alvi',
                 email: 'sayamalvi',
                 password: 'secret',
+                role: 'customer',
             };
 
             connection.getRepository(User);
