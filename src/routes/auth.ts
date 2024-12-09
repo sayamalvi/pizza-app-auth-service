@@ -66,6 +66,7 @@ router.post(
 
 router.post(
     '/logout',
+    authenticate as RequestHandler,
     parseRefreshToken as RequestHandler,
     async (req: Request, res: Response, next: NextFunction) => {
         await authController.logout(req as AuthRequest, res, next);
