@@ -10,10 +10,10 @@ import { CredentialsService } from '../services/CredentialsService';
 
 export class AuthController {
     constructor(
-        private userService: UserService,
-        private logger: Logger,
-        private tokenService: TokenService,
-        private credentialsService: CredentialsService,
+        private readonly userService: UserService,
+        private readonly logger: Logger,
+        private readonly tokenService: TokenService,
+        private readonly credentialsService: CredentialsService,
     ) {}
     async register(
         req: RegisterUserRequest,

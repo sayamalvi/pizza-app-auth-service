@@ -5,6 +5,8 @@ import express, {
     Response,
 } from 'express';
 
+import { Request as JWTRequest } from 'express-jwt';
+
 import authenticate from '../middlewares/authenticate';
 import { canAccess } from '../middlewares/canAccess';
 import { ROLES } from '../enums';
@@ -16,6 +18,7 @@ import logger from '../config/logger';
 import createUserValidator from '../validators/create-user-validator';
 import updateUserValidator from '../validators/update-user-validator';
 import { CreateUserRequest, UpdateUserRequest } from '../types';
+import getUsersValidator from '../validators/get-users-validator';
 
 const router = express.Router();
 const userRepository = AppDataSource.getRepository(User);
@@ -35,8 +38,9 @@ router.post(
 router.get(
     '/',
     authenticate as RequestHandler,
+    getUsersValidator,
     canAccess([ROLES.ADMIN]) as RequestHandler,
-    (req: Request, res: Response, next: NextFunction) =>
+    (req: JWTRequest, res: Response, next: NextFunction) =>
         userController.getAll(req, res, next),
 );
 

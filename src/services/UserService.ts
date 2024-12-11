@@ -1,11 +1,11 @@
-import { Repository } from 'typeorm';
+import { Brackets, Repository } from 'typeorm';
 import { User } from '../entity/User';
-import { LimitedUserData, UserData } from '../types';
+import { GetUserQueryParams, LimitedUserData, UserData } from '../types';
 import createHttpError from 'http-errors';
 import bcrypt from 'bcryptjs';
 
 export class UserService {
-    constructor(private userRepository: Repository<User>) {}
+    constructor(private readonly userRepository: Repository<User>) {}
 
     async create({
         firstName,
@@ -64,8 +64,30 @@ export class UserService {
         });
     }
 
-    async getAll() {
-        return await this.userRepository.find();
+    async getAll(validatedQuery: GetUserQueryParams) {
+        const queryBuilder = this.userRepository.createQueryBuilder('user');
+        if (validatedQuery.searchTerm) {
+            const searchTerm = `%${validatedQuery.searchTerm}%`;
+            queryBuilder.where(
+                new Brackets((qb) => {
+                    qb.where(
+                        "CONCAT(user.firstName, ' ', user.lastName, ' ', user.email ) ILIKE :searchTerm",
+                        { searchTerm },
+                    );
+                }),
+            );
+        }
+        if (validatedQuery.role) {
+            queryBuilder.andWhere('user.role = :role', {
+                role: validatedQuery.role,
+            });
+        }
+        const result = await queryBuilder
+            .skip((validatedQuery.currentPage - 1) * validatedQuery.perPage)
+            .take(validatedQuery.perPage)
+            .orderBy('user.id', 'DESC')
+            .getManyAndCount();
+        return result;
     }
 
     async update(

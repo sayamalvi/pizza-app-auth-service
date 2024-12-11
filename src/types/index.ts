@@ -49,3 +49,10 @@ export interface LimitedUserData {
 export interface UpdateUserRequest extends Request {
     body: LimitedUserData;
 }
+
+export interface GetUserQueryParams {
+    perPage: number;
+    currentPage: number;
+    searchTerm: string;
+    role: string;
+}
