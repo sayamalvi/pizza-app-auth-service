@@ -2,6 +2,19 @@ import { checkSchema } from 'express-validator';
 
 export default checkSchema(
     {
+        searchTerm: {
+            in: ['query'],
+            trim: true,
+            customSanitizer: {
+                options: (value: unknown) => value ?? '',
+            },
+        },
+        role: {
+            in: ['query'],
+            customSanitizer: {
+                options: (value: unknown) => value ?? '',
+            },
+        },
         currentPage: {
             customSanitizer: {
                 options: (value) => {
