@@ -43,7 +43,7 @@ describe('POST /users', () => {
                 firstName: 'Sayam',
                 lastName: 'Alvi',
                 email: 'sayamalvi@gmail.com',
-                password: 'secret',
+                password: 'password',
                 tenantId: tenant.id,
                 role: ROLES.MANAGER,
             };
@@ -69,7 +69,7 @@ describe('POST /users', () => {
                 firstName: 'Sayam',
                 lastName: 'Alvi',
                 email: 'sayamalvi@gmail.com',
-                password: 'secret',
+                password: 'password',
                 tenantId: tenant.id,
                 role: ROLES.MANAGER,
             };
