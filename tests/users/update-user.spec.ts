@@ -5,9 +5,8 @@ import { User } from '../../src/entity/User';
 import { ROLES } from '../../src/enums/index';
 import createJWKSMock from 'mock-jwks';
 import { DataSource } from 'typeorm';
-import { Tenant } from '../../src/entity/Tenant';
 
-describe('GET /users', () => {
+describe('PATCH /users', () => {
     let connection: DataSource;
     let jwks: { start: any; stop: any; token: any; kid?: () => string };
 
@@ -30,7 +29,7 @@ describe('GET /users', () => {
         await connection.destroy();
     });
 
-    it('should return filtered and paginated users', async () => {
+    it('should update the user in database', async () => {
         const adminToken = jwks.token({
             sub: '1',
             role: ROLES.ADMIN,
@@ -40,23 +39,9 @@ describe('GET /users', () => {
 
         const usersData = [
             {
-                firstName: 'John',
-                lastName: 'Doe',
-                email: 'john.doe@admin.com',
-                password: 'password',
-                role: ROLES.ADMIN,
-            },
-            {
                 firstName: 'Jane',
                 lastName: 'Smith',
                 email: 'jane.smith@manager.com',
-                password: 'password',
-                role: ROLES.MANAGER,
-            },
-            {
-                firstName: 'Alice',
-                lastName: 'Johnson',
-                email: 'alice.johnson@manager.com',
                 password: 'password',
                 role: ROLES.MANAGER,
             },
@@ -64,18 +49,19 @@ describe('GET /users', () => {
 
         await userRepository.save(usersData);
 
+        const updatedUser = {
+            firstName: 'Jane',
+            lastName: 'Smith',
+            email: 'jane@manager.com',
+            password: 'password',
+            role: ROLES.MANAGER,
+        };
         const response = await request(app)
-            .get('/users')
+            .patch(`/users/1`)
             .set('Cookie', [`accessToken=${adminToken}`])
-            .query({
-                searchTerm: 'John',
-                role: ROLES.ADMIN,
-                currentPage: 1,
-                perPage: 2,
-            });
+            .send(updatedUser);
 
-        expect(response.status).toBe(200);
-        expect(response.body.data[0].email).toBe('john.doe@admin.com');
-        expect(response.body.data[0]).toHaveProperty('tenant');
+        const users = await userRepository.find();
+        expect(users[0].email).toBe(updatedUser.email);
     });
 });

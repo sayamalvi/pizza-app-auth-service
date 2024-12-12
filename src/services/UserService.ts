@@ -83,6 +83,7 @@ export class UserService {
             });
         }
         const result = await queryBuilder
+            .leftJoinAndSelect('user.tenant', 'tenant')
             .skip((validatedQuery.currentPage - 1) * validatedQuery.perPage)
             .take(validatedQuery.perPage)
             .orderBy('user.id', 'DESC')
@@ -92,13 +93,15 @@ export class UserService {
 
     async update(
         userId: number,
-        { firstName, lastName, role }: LimitedUserData,
+        { firstName, lastName, role, email, tenantId }: LimitedUserData,
     ) {
         try {
             return await this.userRepository.update(userId, {
                 firstName,
                 lastName,
                 role,
+                email,
+                tenant: tenantId ? { id: tenantId } : undefined,
             });
         } catch {
             const error = createHttpError(
