@@ -5,6 +5,7 @@ import { User } from '../../src/entity/User';
 import { ROLES } from '../../src/enums/index';
 import createJWKSMock from 'mock-jwks';
 import { DataSource } from 'typeorm';
+import { Tenant } from '../../src/entity/Tenant';
 
 describe('GET /users', () => {
     let connection: DataSource;
@@ -75,5 +76,6 @@ describe('GET /users', () => {
 
         expect(response.status).toBe(200);
         expect(response.body.data[0].email).toBe('john.doe@admin.com');
+        expect(response.body.data[0]).toHaveProperty('tenant');
     });
 });
