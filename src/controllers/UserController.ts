@@ -7,7 +7,7 @@ import {
 } from '../types';
 import { Logger } from 'winston';
 import createHttpError from 'http-errors';
-import { matchedData } from 'express-validator';
+import { matchedData, validationResult } from 'express-validator';
 
 export class UserController {
     constructor(
@@ -15,6 +15,10 @@ export class UserController {
         private readonly logger: Logger,
     ) {}
     async create(req: CreateUserRequest, res: Response, next: NextFunction) {
+        const result = validationResult(req);
+        if (!result.isEmpty()) {
+            return next(createHttpError(400, result.array()[0].msg as string));
+        }
         try {
             const { firstName, lastName, email, password, tenantId, role } =
                 req.body;
